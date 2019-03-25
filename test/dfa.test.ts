@@ -12,6 +12,7 @@ describe('Dfa', function() {
 
         it('should have an alphabet length of 4', function() {
             expect(dfa.alphabet).to.have.length(4);
+            expect(dfa.alphabet).to.have.members(['a','b','c','d']);
         });
         it('should have two states', function() {
             expect(dfa.numStates).to.equal(2);
