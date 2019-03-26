@@ -13,36 +13,46 @@ class Dfa {
         return this.acceptingStates.includes(execution.currentState);
     }
 
-    readFromFile(filepath: string) {
-        let contents: string[] = readFileSync(filepath, "utf8").split('\n');
-        this.alphabet = contents[0].split(',');
-        this.numStates = parseInt(contents[1]);
-        this.startState = parseInt(contents[2]);
+    deserialize(contents: string) {
+        let lines: string[] = contents.split('\n');
+        this.alphabet = lines[0].split(',');
+        this.numStates = parseInt(lines[1]);
+        this.startState = parseInt(lines[2]);
         
-        this.acceptingStates = contents[3].split(',').map(function(i) {
+        this.acceptingStates = lines[3].split(',').map(function(i) {
             return parseInt(i);
         });
 
         this.transitions = new DfaTransitionMatrix(this.alphabet, this.numStates);
         let numTransitions: number = this.alphabet.length * this.numStates;
         for (let i = 4; i < 4 + numTransitions; i++) {
-            let line: string[] = contents[i].split(',');
+            let line: string[] = lines[i].split(',');
             this.transitions.setTransition(parseInt(line[0]), line[1], parseInt(line[2]));
         }
     }
 
-    writeToFile(filepath: string) {
-        let contents: string = '';
-        contents += this.alphabet.join(',') + '\n';
-        contents += this.numStates.toString() + '\n'; 
-        contents += this.startState.toString() + '\n';
-        contents += this.acceptingStates.join(',') + '\n';
+    serialize(): string {
+        let contents: string[] = [];;
+        contents.push(this.alphabet.join(','));
+        contents.push(this.numStates.toString());
+        contents.push(this.startState.toString());
+        contents.push(this.acceptingStates.join(','));
         for (let state = 0; state <= this.numStates; state++) {
             for(let letter of this.alphabet) {
-                contents += state.toString() + ',' + letter + ',' + 
-                this.transitions.store[state][letter] + '\n';
+                contents.push(state.toString() + ',' + letter + ',' + 
+                this.transitions.store[state][letter]);
             }
         }
+        return contents.join('\n');
+    }
+
+    readFromFile(filepath: string) {
+        let contents: string = readFileSync(filepath, "utf8");
+        this.deserialize(contents); 
+    }
+
+    writeToFile(filepath: string) {
+        let contents: string = this.serialize();
         writeFileSync(filepath, contents);
     }
 }
