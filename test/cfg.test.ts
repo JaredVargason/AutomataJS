@@ -12,7 +12,7 @@ describe('Cfg', function () {
             expect(cfg.terminals).to.have.length(2);
             expect(cfg.terminals).to.have.members(['0', '1']);
         })
-        it('should have two terminals, S and A', function() {
+        it('should have two variables, S and A', function() {
             expect(cfg.variables).to.have.length(2);
             expect(cfg.variables).to.have.members(['S', 'A']);
         });
@@ -43,6 +43,29 @@ describe('Cfg', function () {
         });
         it('should not accept the string "cheese"', function() {
             expect(cfg.acceptsString('cheese')).to.be.false;
+        });
+        describe('clone', function() {
+            let cloned: Cfg = cfg.clone();
+            it('should have 0 and 1 as terminals', function() {
+                expect(cloned.terminals).to.have.length(2);``
+                expect(cloned.terminals).to.have.members(['0', '1']);
+            });
+            it('should have two variables, S and A', function() {
+                expect(cloned.variables).to.have.length(2);
+                expect(cloned.variables).to.have.members(['S','A']);
+            });
+            it('should have a start variable of S', function() {
+                expect(cloned.startVariable).to.equal('S');
+            });
+            it('should have three transitions', function() {
+                let count = 0;
+                for (let variable in cloned.rules) {
+                    for (let rightHandSide of cloned.rules[variable]) {
+                        count++;
+                    }
+                }
+                expect(count).to.equal(3);
+            });
         });
     });
     describe('anbman', function() {

@@ -1,4 +1,5 @@
 import {readFileSync, writeFileSync} from 'fs';
+import { start } from 'repl';
 
 class Cfg {
     terminals: string[];
@@ -58,10 +59,66 @@ class Cfg {
      * A -> BC,
      * A -> a,
      * S -> empty string (allowed if the empty string is a member of the language)
+     * 
+     * see https://en.wikipedia.org/wiki/Chomsky_normal_form
      */
     toCNF(): Cfg {
-        let cnf: Cfg = new Cfg();
+        let cnf: Cfg = this.clone();
+        cnf.START(); 
+        cnf.TERM();
+        cnf.BIN();
+        cnf.DEL();
+        cnf.UNIT();
         return cnf;
+    }
+
+    /**
+     * Create new start variable and transition from new start rule to old start rule
+     * This creates a new unit rule.
+     */
+    private START() {
+        let startCount : number = 0;
+        while (this.variables.includes('S' + startCount.toString())) {
+            startCount++;
+        }
+        let oldStartVariable = this.startVariable;
+        this.startVariable = 'S' + startCount.toString();
+        this.rules[this.startVariable] = [[oldStartVariable]];
+    }
+
+    /**
+     * Eliminate rules with nonsolitary terminals
+     */
+    private TERM() {
+
+    }
+
+    /**
+     * Eliminate right-hand sides with more than two nonterminals.
+     * Replace each rule A -> XYZ with
+     * A -> XB
+     * B -> YZ
+     */
+    private BIN() {
+    }
+
+    /**
+     * Eliminate empty string rules.
+     * If A -> empty string
+     */
+    private DEL() {
+
+    }
+
+    private UNIT() {
+        for (let variable in this.rules) {
+            for (let rightSide in this.rules[variable]) {
+                if (rightSide.length == 1 && this.variables.includes(rightSide[0])) {
+                    let replacedVar: string = rightSide[0];
+                    //for (let )
+                }
+            }
+        }
     }
 
     /**
@@ -72,6 +129,22 @@ class Cfg {
     acceptsString(inputString: string): boolean { 
         return true;
     }
+
+    clone(): Cfg {
+        let cfg: Cfg = new Cfg();
+        cfg.terminals = this.terminals.slice();
+        cfg.variables = this.variables.slice();
+        cfg.startVariable = this.startVariable;
+        cfg.rules = {};
+
+        for (let rule in this.rules) {
+            cfg.rules[rule] = [];
+            for (let rightSide of this.rules[rule]) {
+                cfg.rules[rule].push(rightSide.slice());
+            }
+        }
+        return cfg;
+    }
 }
 
-export { Cfg};
+export { Cfg };
