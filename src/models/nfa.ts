@@ -1,6 +1,9 @@
 import { readFileSync, writeFileSync, stat } from 'fs';
 
 class Nfa {
+
+    static emptyStringChar = '#';
+
     alphabet: string[];
     numStates: number;
     startState: number;
@@ -44,6 +47,7 @@ class Nfa {
             for (let letter of this.alphabet) {
                 this.transitions[state][letter] = [];
             }
+            this.transitions[state][Nfa.emptyStringChar] = [];
         }
         for(let i = 4; i < lines.length; i++) {
             if (lines[i] != '') {
@@ -87,6 +91,14 @@ class NfaExecution {
     }
 
     private simulate(inputString: string, currentState: number): boolean {
+        
+
+        for (let i = 0; i < this.nfa.transitions[currentState][Nfa.emptyStringChar].length; i++) {
+            if (this.simulate(inputString, this.nfa.transitions[currentState][Nfa.emptyStringChar][i])) {
+                return true;
+            }
+        }
+
         if (inputString == '') {
             return this.nfa.acceptingStates.includes(currentState);
         }
