@@ -5,27 +5,27 @@ class Cfg {
     terminals: string[];
     variables: string[];
     startVariable: string;
-    rules: {[key:string]:string[][]};
+    //rules: {[key:string]:string[][]};
+    rules: CfgRule[];
 
     deserialize(contents: string) {
         let lines = contents.split('\n');
         this.terminals = lines[0].split(',');
         this.variables = lines[1].split(',');
         this.startVariable = lines[2];
-        this.rules = {};
+        this.rules = [];
 
         let ruleRegex : RegExp = /([A-Z]*)->(?:([A-Za-z0-9]*),)*/; 
-        let regex = ruleRegex.compile();
         for (let i = 3; i < lines.length; i++) {
-            let matches : RegExpMatchArray = lines[i].match(regex);
-            let leftSide = matches[0];
-            let rightSide = matches.slice(1, matches.length);
-            if (leftSide in this.rules) {
-                this.rules[leftSide].push(rightSide);
+            let matches : RegExpMatchArray = lines[i].match(ruleRegex);
+            if (matches.length < 2) {
+                continue;
             }
-            else {
-                this.rules[leftSide] = [rightSide];
+            let rule: CfgRule = {
+                variable: matches[0],
+                product: matches.slice(1, matchMedia.length)
             }
+            this.rules.push(rule);
         }
     }
 
@@ -34,11 +34,8 @@ class Cfg {
         lines.push(this.terminals.join(','));
         lines.push(this.variables.join(','));
         lines.push(this.startVariable);
-        for (let startVariable in this.rules) {
-            for (let rightSide in this.rules[startVariable]) {
-                let ruleString = startVariable + '->' + this.rules[startVariable][rightSide].join(',');
-                lines.push(ruleString);
-            }
+        for (let rule of this.rules) {
+            let ruleString = rule.variable + '->' + rule.product.join(',');
         }
         return lines.join('\n');
     }
@@ -77,17 +74,18 @@ class Cfg {
      * This creates a new unit rule.
      */
     private START() {
-        let startCount : number = 0;
-        while (this.variables.includes('S' + startCount.toString())) {
-            startCount++;
-        }
         let oldStartVariable = this.startVariable;
-        this.startVariable = 'S' + startCount.toString();
-        this.rules[this.startVariable] = [[oldStartVariable]];
+        this.startVariable = this.suggestVariableName();
+        this.rules.push(new CfgRule(this.startVariable, [oldStartVariable]));
     }
 
     /**
-     * Eliminate rules with nonsolitary terminals
+     * Eliminate rules with nonsolitary terminals.
+     * A -> XaY
+     * yields a new rule
+     * B -> XaY
+     * and changes the old rule to
+     * A -> XBY
      */
     private TERM() {
 
@@ -100,23 +98,28 @@ class Cfg {
      * B -> YZ
      */
     private BIN() {
+
     }
 
     /**
      * Eliminate empty string rules.
-     * If A -> empty string
+     * If A -> empty string, then A is nullable.
      */
     private DEL() {
 
     }
 
+    /**
+     * Unit rules are of the form A -> B.
+     * To remove a unit rule, find all rules of type B -> XYZ
+     * and add rules A -> XYZ.
+     */
     private UNIT() {
-        for (let variable in this.rules) {
-            for (let rightSide in this.rules[variable]) {
-                if (rightSide.length == 1 && this.variables.includes(rightSide[0])) {
-                    let replacedVar: string = rightSide[0];
-                    //for (let )
-                }
+        let oldRules = this.rules;
+        let removedRules : CfgRule[] = [];
+        for (let rule of this.rules) {
+            if (rule.product.length == 1 && this.variables.includes(rule.product[0])) {
+                
             }
         }
     }
@@ -135,16 +138,38 @@ class Cfg {
         cfg.terminals = this.terminals.slice();
         cfg.variables = this.variables.slice();
         cfg.startVariable = this.startVariable;
-        cfg.rules = {};
+        cfg.rules = [];
 
-        for (let rule in this.rules) {
-            cfg.rules[rule] = [];
-            for (let rightSide of this.rules[rule]) {
-                cfg.rules[rule].push(rightSide.slice());
-            }
+        for (let rule of this.rules) {
+            let newRule: CfgRule = new CfgRule(
+                rule.variable, 
+                rule.product.slice()
+            );
+            cfg.rules.push(newRule);
         }
         return cfg;
     }
+
+    private suggestVariableName(): string {
+        let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        for (let letter of alphabet) {
+            if (!alphabet.includes(letter)) {
+                return letter;
+            }
+        }
+        return '';
+    }
+}
+
+class CfgRule {
+    variable: string;
+    product: string[]
+
+    constructor(variable: string, product: string[]) {
+        this.variable = variable;
+        this.product = product;
+    }
+
 }
 
 export { Cfg };

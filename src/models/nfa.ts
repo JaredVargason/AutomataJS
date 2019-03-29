@@ -91,8 +91,6 @@ class NfaExecution {
     }
 
     private simulate(inputString: string, currentState: number): boolean {
-        
-
         for (let i = 0; i < this.nfa.transitions[currentState][Nfa.emptyStringChar].length; i++) {
             if (this.simulate(inputString, this.nfa.transitions[currentState][Nfa.emptyStringChar][i])) {
                 return true;

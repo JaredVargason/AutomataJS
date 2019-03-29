@@ -1,0 +1,40 @@
+* {
+    margin: 0; padding: 0;
+}
+
+body, html { height:100%; }
+
+#grid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: white;
+}
+
+.control-panel {
+    position: relative;
+    top: 1em;
+    left: 1em;
+
+    opacity: .85;
+}
+
+function loadSvg(selector, url) {
+    var target = document.querySelector(selector);
+  
+    // If SVG is supported
+    if (typeof SVGRect != "undefined") {
+      // Request the SVG file
+      var ajax = new XMLHttpRequest();
+      ajax.open("GET", url + ".svg", true);
+      ajax.send();
+  
+      // Append the SVG to the target
+      ajax.onload = function(e) {
+        target.innerHTML = ajax.responseText;
+      }
+    } else {
+      // Fallback to png
+      target.innerHTML = "<img src='" + url + ".png' />";
+    }
+  }
