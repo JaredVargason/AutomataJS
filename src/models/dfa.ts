@@ -5,7 +5,7 @@ class Dfa {
     numStates: number;
     startState: number;
     acceptingStates: number[];
-    transitions: DfaTransitionMatrix;
+    transitions: {[key : number]: {[key: string]: number}};
 
     acceptsString(inputString: string): boolean {
         let execution = new DfaExecution(this, inputString);
@@ -23,11 +23,18 @@ class Dfa {
             return parseInt(i);
         });
 
-        this.transitions = new DfaTransitionMatrix(this.alphabet, this.numStates);
+        this.transitions = {};
+        for (let state = 0; state < this.numStates; state++) {
+            this.transitions[state] = {};
+            for (let char of this.alphabet) {
+                this.transitions[state][char] = -1;
+            }
+        }
+
         let numTransitions: number = this.alphabet.length * this.numStates;
         for (let i = 4; i < 4 + numTransitions; i++) {
             let line: string[] = lines[i].split(',');
-            this.transitions.setTransition(parseInt(line[0]), line[1], parseInt(line[2]));
+            this.transitions[parseInt(line[0])][line[1]] = parseInt(line[2]);
         }
     }
 
@@ -40,7 +47,7 @@ class Dfa {
         for (let state = 0; state <= this.numStates; state++) {
             for(let letter of this.alphabet) {
                 contents.push(state.toString() + ',' + letter + ',' + 
-                this.transitions.store[state][letter]);
+                this.transitions[state][letter]);
             }
         }
         return contents.join('\n');
@@ -54,28 +61,6 @@ class Dfa {
     writeToFile(filepath: string) {
         let contents: string = this.serialize();
         writeFileSync(filepath, contents);
-    }
-}
-
-class DfaTransitionMatrix {
-    store : {[key : number]: {[key: string]: number}};
-
-    constructor(alphabet: string[], numStates: number) {
-        this.store = {};
-        for (let state = 0; state < numStates; state++) {
-            this.store[state] = {};
-            for (let char of alphabet) {
-                this.store[state][char] = -1;
-            }
-        }
-    }
-
-    next(currentState: number, letter: string): number {
-        return this.store[currentState][letter];
-    }
-
-    setTransition(currentState: number, letter: string, nextState: number) {
-        this.store[currentState][letter] = nextState;
     }
 }
 
@@ -103,7 +88,7 @@ class DfaExecution {
             return;
         }
         let currentChar : string = this.inputString[this.currentCharIndex++];
-        let nextState : number = this.dfa.transitions.next(this.currentState, currentChar);
+        let nextState : number = this.dfa.transitions[this.currentState][currentChar];
         this.currentState = nextState;
     }
 }

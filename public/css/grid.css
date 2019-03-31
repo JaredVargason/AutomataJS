@@ -19,22 +19,7 @@ body, html { height:100%; }
     opacity: .85;
 }
 
-function loadSvg(selector, url) {
-    var target = document.querySelector(selector);
-  
-    // If SVG is supported
-    if (typeof SVGRect != "undefined") {
-      // Request the SVG file
-      var ajax = new XMLHttpRequest();
-      ajax.open("GET", url + ".svg", true);
-      ajax.send();
-  
-      // Append the SVG to the target
-      ajax.onload = function(e) {
-        target.innerHTML = ajax.responseText;
-      }
-    } else {
-      // Fallback to png
-      target.innerHTML = "<img src='" + url + ".png' />";
-    }
-  }
+#transitionsList {
+    max-height: 300px;
+    overflow-y: scroll;
+}

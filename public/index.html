@@ -11,8 +11,6 @@
   <link rel="stylesheet" href="css/grid.css">
   <script src="js/jquery.js"></script>
   <script src="js/bootstrap.bundle.js"></script>
-  <script src="js/grid.js"></script>
-  <script src="js/dfa.js"></script>
 </head>
 
 <body>
@@ -61,75 +59,95 @@
         </li>
       </ul>
     </div>
-    <div class="card-body">
       <div class="tab-content">
         <div class="tab-pane fade show active" id="main" role="tabpanel" aria-labelledby="main-tab">
-          <label>Alphabet</label>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1"><i>&Sigma;</i></span>
+          <div class="card-body">
+            <label>Alphabet</label>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i>&Sigma;</i></span>
+              </div>
+              <input id="alphabetInput" type="text" class="form-control" placeholder="A,B,C" aria-label="Alphabet"
+                aria-describedby="basic-addon1">
             </div>
-            <input type="text" class="form-control" placeholder="A,B,C" aria-label="Alphabet"
-              aria-describedby="basic-addon1">
-          </div>
-          <label>Number of States</label>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1"><i>Q</i></span>
+            <label>Number of States</label>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i>Q</i></span>
+              </div>
+              <input id="numStatesInput" type="number" class="form-control" placeholder="0" aria-label="Number of states"
+                aria-describedby="basic-addon1">
             </div>
-            <input type="number" class="form-control" placeholder="0" aria-label="Number of states"
-              aria-describedby="basic-addon1">
-          </div>
-          <label>Start State</label>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text"
-                id="basic-addon1"><i>q<sub>0</sub></i>&nbsp;&straightepsilon;&nbsp;<i>Q</i></span>
+            <label>Start State</label>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  id="basic-addon1"><i>q<sub>0</sub></i>&nbsp;&straightepsilon;&nbsp;<i>Q</i></span>
+              </div>
+              <input id="startStateInput" type="text" class="form-control" placeholder="0" aria-label="Start state"
+                aria-describedby="basic-addon1">
             </div>
-            <input type="text" class="form-control" placeholder="0" aria-label="Start state"
-              aria-describedby="basic-addon1">
-          </div>
-          <label>Accepting States</label>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">F &subseteq; Q</span>
+            <label>Accepting States</label>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">F &subseteq; Q</span>
+              </div>
+              <input id="acceptingStatesInput" type="text" class="form-control" placeholder="0,1" aria-label="Accepting States"
+                aria-describedby="basic-addon1">
             </div>
-            <input type="text" class="form-control" placeholder="0,1" aria-label="Accepting States"
-              aria-describedby="basic-addon1">
           </div>
         </div>
         <div class="tab-pane fade" id="transitions" role="tabpanel" aria-labelledby="transitions-tab">
-          <label>Transitions</label>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1"><i>Q&nbsp;x&nbsp;&Sigma;&nbsp;&rarr;&nbsp;Q</i></span>
+          <div class="card-body">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                <i>Q&nbsp;x&nbsp;&Sigma;&nbsp;&rarr;&nbsp;Q</i></span>
+              </div>
             </div>
-            <input type="text" class="form-control" placeholder="Q" aria-label="FromState"
-              aria-describedby="basic-addon1">
-            <input type="text" class="form-control" placeholder="&Sigma;" aria-label="Letter"
-              aria-describedby="basic-addon1">
-            <input type="text" class="form-control" placeholder="Q" aria-label="ToState"
-              aria-describedby="basic-addon1">
-          </div>
-          <div class="input-group mb-3">
-            <button class="btn btn-primary btn-block" type="button">Add</button>
-          </div>
-          <ul class="list-group">
+            <ul id="transitionsList" class="list-group">
+              <li class="list-group-item">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">LOLLOL</span>
+                  </div>
+                <input type="number" class="form-control" placeholder="Q">
+                </div>
+              </li>
               <li class="list-group-item">Butts</li>
               <li class="list-group-item">Boots</li>
               <li class="list-group-item">Beets</li>
-          </ul>
+            </ul>
+          </div>
         </div>
-      </div>
-      <br>
-      <!--<a href="#" class="btn btn-secondary">Load from file</a>
-      <input type="file" class="form-control-file" id="dfaFile">
-      <a href="#" class="btn btn-primary">Update</a>-->
-      <div class="tab-pane fade" id="save" role="tabpanel" aria-labelledby="save-tab">
-        
+        <div class="tab-pane fade" id="save" role="tabpanel" aria-labelledby="save-tab">
+          <div class="card-body">
+            <h5 class="card-title">Load</h5>
+            <div class="input-group">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="dfaFile">
+                  <label class="custom-file-label" for="dfaFile">Choose file</label>
+                </div>
+                <div class="input-group-append">
+                  <button id="loadBtn" class="btn btn-primary" type="button">Load</button>
+                </div>
+              </div> 
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Save</h5>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="model.dfa" aria-label="save filename"
+                aria-describedby="basic-addon1">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="button">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+  <script src="js/bundle/dfa.js"></script>
 </body>
 
 </html>
