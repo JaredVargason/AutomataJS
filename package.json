@@ -24,12 +24,14 @@
     "factor-bundle": "^2.5.0",
     "gulp": "^4.0.0",
     "gulp-typescript": "^5.0.1",
+    "gulp-util": "^3.0.8",
     "mocha": "^6.0.2",
     "ts-node": "^8.0.3",
     "tsify": "^4.0.1",
     "tslint": "^5.14.0",
     "typescript": "^3.3.4000",
-    "vinyl-source-stream": "^2.0.0"
+    "vinyl-source-stream": "^2.0.0",
+    "watchify": "^3.11.1"
   },
   "dependencies": {
     "@types/jquery": "^3.3.29",

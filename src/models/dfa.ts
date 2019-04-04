@@ -1,4 +1,5 @@
 import {readFileSync, writeFileSync} from 'fs';
+import { start } from 'repl';
 
 class Dfa {
     alphabet: string[];
@@ -6,6 +7,20 @@ class Dfa {
     startState: number;
     acceptingStates: number[];
     transitions: {[key : number]: {[key: string]: number}};
+
+    constructor({
+        alphabet = [],
+        numStates = 0,
+        startState = 0,
+        acceptingStates = [],
+        transitions = {}
+    }: {alphabet?: string[], numStates?: number, startState?: number, acceptingStates?: number[], transitions?: {[key : number]: {[key: string]: number}}} = {}) {
+        this.alphabet = alphabet; 
+        this.numStates = numStates;
+        this.startState = startState;
+        this.acceptingStates = acceptingStates;
+        this.transitions = transitions;
+    }
 
     acceptsString(inputString: string): boolean {
         let execution = new DfaExecution(this, inputString);

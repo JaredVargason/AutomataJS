@@ -2,7 +2,7 @@
     margin: 0; padding: 0;
 }
 
-body, html { height:100%; }
+body, html, .content { height:100%; }
 
 #grid {
     position: absolute;
@@ -12,14 +12,22 @@ body, html { height:100%; }
 }
 
 .control-panel {
-    position: relative;
+    position: absolute;
     top: 1em;
     left: 1em;
 
     opacity: .85;
 }
 
+#characters {
+    margin: 0 auto;
+}
+
 #transitionsList {
     max-height: 300px;
     overflow-y: scroll;
+}
+
+#resultBar {
+    background-color: darkgrey;
 }

@@ -40,90 +40,142 @@
       </div>
     </div>
   </nav>
-  <object data="svg/grid.svg" id="grid"></object>
-  <div class="card control-panel" style="width: 20rem;">
-    <!--<h5 class="card-title">Deterministic Finite Automaton</h5>-->
-    <div class="card-header">
-      <ul class="nav nav-tabs card-header-tabs pull-right" id="myTab" role="tablist">
-        <li class="nav-item">
-          <a class="nav-link active" id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main"
-            aria-selected="true">Main</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="transitions-tab" data-toggle="tab" href="#transitions" role="tab"
-            aria-controls="transitions" aria-selected="false">Transitions</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="save-tab" data-toggle="tab" href="#save" role="tab"
-            aria-controls="save" aria-selected="false">Save/Load</a>
-        </li>
-      </ul>
-    </div>
-      <div class="tab-content">
-        <div class="tab-pane fade show active" id="main" role="tabpanel" aria-labelledby="main-tab">
-          <div class="card-body">
-            <label>Alphabet</label>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1"><i>&Sigma;</i></span>
-              </div>
-              <input id="alphabetInput" type="text" class="form-control" placeholder="A,B,C" aria-label="Alphabet"
-                aria-describedby="basic-addon1">
-            </div>
-            <label>Number of States</label>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1"><i>Q</i></span>
-              </div>
-              <input id="numStatesInput" type="number" class="form-control" placeholder="0" aria-label="Number of states"
-                aria-describedby="basic-addon1">
-            </div>
-            <label>Start State</label>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text"
-                  id="basic-addon1"><i>q<sub>0</sub></i>&nbsp;&straightepsilon;&nbsp;<i>Q</i></span>
-              </div>
-              <input id="startStateInput" type="text" class="form-control" placeholder="0" aria-label="Start state"
-                aria-describedby="basic-addon1">
-            </div>
-            <label>Accepting States</label>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">F &subseteq; Q</span>
-              </div>
-              <input id="acceptingStatesInput" type="text" class="form-control" placeholder="0,1" aria-label="Accepting States"
-                aria-describedby="basic-addon1">
-            </div>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="transitions" role="tabpanel" aria-labelledby="transitions-tab">
-          <div class="card-body">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                <i>Q&nbsp;x&nbsp;&Sigma;&nbsp;&rarr;&nbsp;Q</i></span>
-              </div>
-            </div>
-            <ul id="transitionsList" class="list-group">
-              <li class="list-group-item">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">LOLLOL</span>
-                  </div>
-                <input type="number" class="form-control" placeholder="Q">
+  <div class="content" style="position: relative;">
+    <svg id="dfaSvg" width="100%" height="100%" style="background-color: #666666" xmlns="http://www.w3.org/2000/svg"> 
+      <defs> 
+        <pattern id="smallGrid" width="15" height="15" patternUnits="userSpaceOnUse">
+          <path d="M 15 0 L 0 0 0 15" fill="none" stroke="black" stroke-width="0.5" />
+        </pattern>
+        <pattern id="largeGrid" width="75" height="75" patternUnits="userSpaceOnUse">
+          <rect width="75" height="75" fill="url(#smallGrid)" />
+          <path d="M 75 0 L 0 0 0 75" fill="none" stroke="black" stroke-width="1" />
+        </pattern>
+      </defs>
+      <rect id="grid" width="100%" height="100%" fill="url(#largeGrid)" /> 
+    </svg>
+    <div class="card control-panel" style="width: 20rem;">
+      <!--<h5 class="card-title">Deterministic Finite Automaton</h5>-->
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs pull-right" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="definition-tab" data-toggle="tab" href="#definition" role="tab" aria-controls="definition"
+              aria-selected="true">Definition</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="testing-tab" data-toggle="tab" href="#testing" role="tab"
+              aria-controls="testing" aria-selected="false">Testing</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="save-tab" data-toggle="tab" href="#save" role="tab"
+              aria-controls="save" aria-selected="false">Save/Load</a>
+          </li>
+        </ul>
+      </div>
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="definition" role="tabpanel" aria-labelledby="definition-tab">
+            <div class="card-body">
+              <label>Alphabet</label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1"><i>&Sigma;</i></span>
                 </div>
-              </li>
-              <li class="list-group-item">Butts</li>
-              <li class="list-group-item">Boots</li>
-              <li class="list-group-item">Beets</li>
-            </ul>
+                <input id="alphabetInput" type="text" class="form-control" placeholder="A,B,C" aria-label="Alphabet"
+                  aria-describedby="basic-addon1">
+              </div>
+              <label>Number of States</label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1"><i>Q</i></span>
+                </div>
+                <input id="numStatesInput" type="number" class="form-control" placeholder="0" aria-label="Number of states"
+                  aria-describedby="basic-addon1">
+              </div>
+              <label>Start State</label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"
+                    id="basic-addon1"><i>q<sub>0</sub></i>&nbsp;&straightepsilon;&nbsp;<i>Q</i></span>
+                </div>
+                <input id="startStateInput" type="text" class="form-control" placeholder="0" aria-label="Start state"
+                  aria-describedby="basic-addon1">
+              </div>
+              <label>Accepting States</label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">F &subseteq; Q</span>
+                </div>
+                <input id="acceptingStatesInput" type="text" class="form-control" placeholder="0,1" aria-label="Accepting States"
+                  aria-describedby="basic-addon1">
+              </div>
+              <label>Transitions</label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                  <i>Q&nbsp;x&nbsp;&Sigma;&nbsp;&rarr;&nbsp;Q</i></span>
+                </div>
+              </div>
+              <ul id="transitionsList" class="list-group" style="height: 10em"></ul>
+            </div>
           </div>
-        </div>
-        <div class="tab-pane fade" id="save" role="tabpanel" aria-labelledby="save-tab">
-          <div class="card-body">
-            <h5 class="card-title">Load</h5>
-            <div class="input-group">
+          <div class="tab-pane fade" id="testing" role="tabpanel" aria-labelledby="testing-tab">
+            <div class="card-body">
+              <label><h5 class="card-title">Test String</h5></label>
+              <div id="resultBar" class="row no-gutters rounded mb-3" style="width: 100%; height: 2em;">
+                <div class="col text-center">
+                  <span id="resultText" class="text-white">Result</span>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <input id="testStringInput" type="text" class="form-control" placeholder="Input" aria-label="Test String"
+                aria-describedby="basic-addon1">
+                <div class="input-group-append">
+                  <button id="clearInputBtn" class="btn btn-secondary" type="button">Clear</button>
+                  <button id="testBtn" class="btn btn-primary" type="button">Test</button>
+                </div>
+              </div>
+              <h5 class="card-title">Step Through</h5>
+              <div id="characters" class="btn-toolbar" role="toolbar" aria-label="character-toolbar">
+                <div class="btn-group" role="group" aria-label="character-btn-group" style="margin: 0 auto">
+                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
+                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
+                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
+                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
+                  <button type="button" class="btn btn-dark border border-dark">&nbsp;</button>
+                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
+                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
+                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
+                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
+                </div>
+              </div>
+              <!--<div id="indices" class="btn-toolbar mb-3" role="toolbar" aria-label="index-toolbar">
+                <div class="btn-group" role="group" aria-label="index-btn-group" style="margin: 0 auto">
+                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
+                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
+                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
+                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
+                  <button type="button" class="btn btn-dark border border-dark">&nbsp;</button>
+                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
+                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
+                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
+                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
+                </div>
+              </div>-->
+              <div id="controls" class="btn-toolbar" role="toolbar" aria-label="step-toolbar">
+                <div class="btn-group mr-2" role="group" aria-label="step back" style="margin: 0 auto">
+                  <button type="button" class="btn btn-dark">&lt;&lt;</button>
+                  <button type="button" class="btn btn-dark">&lt;</button>
+                </div>
+                <div class="btn-group ml-2" role="group" aria-label="step forward" style="margin: 0 auto">
+                  <button type="button" class="btn btn-dark">&gt;</button>
+                  <button type="button" class="btn btn-dark">&gt;&gt;</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="save" role="tabpanel" aria-labelledby="save-tab">
+            <div class="card-body">
+              <h5 class="card-title">Load</h5>
+              <div class="input-group mb-3">
                 <div class="custom-file">
                   <input type="file" class="custom-file-input" id="dfaFile">
                   <label class="custom-file-label" for="dfaFile">Choose file</label>
@@ -131,15 +183,19 @@
                 <div class="input-group-append">
                   <button id="loadBtn" class="btn btn-primary" type="button">Load</button>
                 </div>
-              </div> 
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">Save</h5>
-            <div class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="model.dfa" aria-label="save filename"
-                aria-describedby="basic-addon1">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">Save</button>
+              </div>
+              <h5 class="card-title">Save</h5>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="model.dfa" aria-label="save filename"
+                  aria-describedby="basic-addon1">
+                <div class="input-group-append">
+                  <button class="btn btn-primary" type="button">Save</button>
+                </div>
+              </div>
+              <h5 class="card-title">Other</h5>
+              <div class="input-group mb-3">
+                <button id="loadExampleBtn" class="btn btn-secondary" type="button">Load example</button>
+                <button id="clearBtn" class="btn btn-primary" type="button">Clear</button>
               </div>
             </div>
           </div>
