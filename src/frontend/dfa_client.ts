@@ -1,10 +1,12 @@
-import { Dfa } from '../models/dfa';
+import { Dfa, DfaExecution } from '../models/dfa';
 import { read } from 'fs';
 import { pathToFileURL } from 'url';
 import { create } from 'domain';
+import { exec } from 'child_process';
 
-class StateNode {
+class State {
     stateNum: number;
+    svg: SVGSVGElement; 
 
     constructor(stateNum: number) {
 
@@ -12,6 +14,7 @@ class StateNode {
 }
 
 let dfa: Dfa = new Dfa();
+let execution: DfaExecution = null;
 let states: SVGGElement[] = [];
 
 function createDefaultDfa(): Dfa {
@@ -66,16 +69,13 @@ function loadDfa(newDfa: Dfa) {
     updateSVG();
 }
 
+//Panel functions
 function updatePanel() {
     updateAlphabet();
     updateNumStates();
     updateStartState();
     updateAcceptStates();
     updateTransitions();
-}
-
-function updateSVG() {
-    createStates(); 
 }
 
 function updateAlphabet() {
@@ -131,6 +131,15 @@ function addTransition(fromState: number, letter: string, toState: number) {
     transitionList.appendChild(listElement);
 }
 
+//SVG
+function updateSVG() {
+    createStates(); 
+}
+
+function addTransitionSVG(fromState, toState) {
+    
+}
+
 function createState(event : MouseEvent) {
     var svg : SVGSVGElement = <SVGSVGElement><any>document.getElementById('dfaSvg');
     let domPoint = mouseEventToSVGCoord(svg, event);
@@ -178,11 +187,12 @@ function toSvgCoord(svg:SVGSVGElement, x: number, y: number): DOMPoint {
 }
 
 function clearAll() {
-    clearPanel();
+    clearDefinition();
+    clearTesting();
     clearSvg();
 }
 
-function clearPanel() {
+function clearDefinition() {
     let alphabetInput = document.getElementById('alphabetInput') as HTMLInputElement;
     alphabetInput.value = '';
 
@@ -194,6 +204,8 @@ function clearPanel() {
 
     let acceptingStatesInput = document.getElementById('acceptingStatesInput') as HTMLInputElement;
     acceptingStatesInput.value = '';
+
+    clearTransitionsList();
 }
 
 function clearSvg() {
@@ -218,7 +230,8 @@ function clearTransitions() {
 }
 
 function createStateAtPoint(svgX: number, svgY: number) {
-    var svg : SVGSVGElement = <SVGSVGElement><any>document.getElementById('dfaSvg');
+    var svg: SVGSVGElement = <SVGSVGElement><any>document.getElementById('dfaSvg');
+    var group: SVGGElement = document.createElementNS("http://www.w3.org/2000/svg", 'g');
     var circle = document.createElementNS("http://www.w3.org/2000/svg",'circle');
     circle.setAttribute('draggable', 'true');
     circle.setAttribute('r', '40');
@@ -271,7 +284,6 @@ function testString() {
 }
 
 function clearInput() {
-    resultReset();
     let inputElement = <HTMLInputElement>document.getElementById('testStringInput');
     inputElement.value = '';
 }
@@ -297,6 +309,65 @@ function resultReset() {
     resultText.innerText = 'Result';
 }
 
+//Step through testing
+function beginStepThrough() {
+    let inputElement = <HTMLInputElement>document.getElementById('testStringInput');
+    execution = dfa.getExecution(inputElement.value);
+    populateCharacters();
+}
+
+function clearTesting() {
+    clearInput();
+    resultReset();
+    execution = dfa.getExecution('');
+    populateCharacters();
+}
+
+function stepForward() {
+    execution.step_forward();
+    populateCharacters();
+    updateIndexInput();
+}
+
+function stepBackward() {
+    execution.step_backward();
+    populateCharacters();
+    updateIndexInput();
+}
+
+function resetStepThrough() {
+    execution.reset();
+    populateCharacters();
+    updateIndexInput();
+}
+
+function finishStepThrough() {
+    execution.finish();
+    populateCharacters();
+    updateIndexInput();
+}
+
+function populateCharacters() {
+    let characterSlots = document.getElementById('characters');
+    let numSlots = characterSlots.childElementCount;
+    let middleIndex = Math.floor(numSlots / 2);
+    let firstCharIndex = middleIndex - execution.currentCharIndex
+    let lastCharIndex = firstCharIndex + execution.inputString.length;
+    for (let i = 0; i < numSlots; i++) {
+        if (i >= firstCharIndex && i < lastCharIndex) {
+            characterSlots.children[i].textContent = execution.inputString[i - firstCharIndex];
+        }
+        else {
+            characterSlots.children[i].textContent = '';
+        }
+    }
+}
+
+function updateIndexInput() {
+    let indexInput = <HTMLInputElement>document.getElementById('indexInput');
+    indexInput.value = execution.currentCharIndex.toString();
+}
+
 $(document).ready(function() {
     //addGridEvents();
     document.getElementById('loadBtn').addEventListener('click', function() {
@@ -312,10 +383,23 @@ $(document).ready(function() {
         clearAll();
     });
     document.getElementById('clearInputBtn').addEventListener('click', function() {
-        clearInput();
+        clearTesting();
     });
-    document.getElementById('testStringInput').addEventListener('change', function() {
+    document.getElementById('testStringInput').addEventListener('input', function() {
+        beginStepThrough();
         resultReset();
+    });
+    document.getElementById('forwardBtn').addEventListener('click', function() {
+        stepForward();
+    });
+    document.getElementById('backBtn').addEventListener('click', function() {
+        stepBackward();
+    });
+    document.getElementById('resetBtn').addEventListener('click', function(){
+        resetStepThrough();
+    });
+    document.getElementById('finishBtn').addEventListener('click', function() {
+        finishStepThrough();
     });
     loadDefaultDfa();
 });

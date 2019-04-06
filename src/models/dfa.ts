@@ -23,9 +23,13 @@ class Dfa {
     }
 
     acceptsString(inputString: string): boolean {
-        let execution = new DfaExecution(this, inputString);
+        let execution: DfaExecution = this.getExecution(inputString);
         execution.finish();
         return this.acceptingStates.includes(execution.currentState);
+    }
+
+    getExecution(inputString: string) : DfaExecution {
+        return new DfaExecution(this, inputString);
     }
 
     deserialize(contents: string) {
@@ -84,27 +88,49 @@ class DfaExecution {
     currentState : number; 
     inputString : string;
     currentCharIndex : number;
+    path: number[]; 
 
     constructor(dfa: Dfa, inputString: string) {
         this.dfa = dfa;
-        this.currentState = dfa.startState;
         this.inputString = inputString;
+        this.reset();
+    }
+
+    currentChar(): string {
+        return this.inputString[this.currentCharIndex];
+    }
+
+    reset() {
+        this.path = [this.dfa.startState];
+        this.currentState = this.dfa.startState;
         this.currentCharIndex = 0;
     }
 
     finish() {
         while (this.currentCharIndex < this.inputString.length) {
-            this.step();
+            this.step_forward();
         }
     }
 
-    step() {
+    step_forward() {
         if (this.currentCharIndex >= this.inputString.length) {
             return;
         }
-        let currentChar : string = this.inputString[this.currentCharIndex++];
+
+        let currentChar : string = this.currentChar();
         let nextState : number = this.dfa.transitions[this.currentState][currentChar];
+        this.path.push(nextState);
         this.currentState = nextState;
+        this.currentCharIndex++;
+    }
+
+    step_backward() {
+        if (this.currentCharIndex <= 0) {
+            return;
+        }
+
+        this.currentState = this.path.pop();
+        this.currentCharIndex--;
     }
 }
 

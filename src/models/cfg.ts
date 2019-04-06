@@ -23,7 +23,7 @@ class Cfg {
             }
             let rule: CfgRule = {
                 variable: matches[0],
-                product: matches.slice(1, matchMedia.length)
+                product: matches.slice(1, matches.length)
             }
             this.rules.push(rule);
         }

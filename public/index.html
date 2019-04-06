@@ -134,40 +134,30 @@
                 </div>
               </div>
               <h5 class="card-title">Step Through</h5>
-              <div id="characters" class="btn-toolbar" role="toolbar" aria-label="character-toolbar">
-                <div class="btn-group" role="group" aria-label="character-btn-group" style="margin: 0 auto">
-                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
-                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
-                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
-                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
-                  <button type="button" class="btn btn-dark border border-dark">&nbsp;</button>
-                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
-                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
-                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
-                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
+              <div class="btn-toolbar mb-3" role="toolbar" aria-label="character-toolbar">
+                <div id="characters" class="btn-group" role="group" aria-label="character-btn-group" style="margin: 0 auto">
+                  <button type="button" class="btn-char btn btn-secondary border border-dark">&nbsp;&nbsp;</button>
+                  <button type="button" class="btn-char btn btn-secondary border border-dark">&nbsp;&nbsp;</button>
+                  <button type="button" class="btn-char btn btn-secondary border border-dark">&nbsp;&nbsp;</button>
+                  <button type="button" class="btn-char btn btn-secondary border border-dark">&nbsp;&nbsp;</button>
+                  <button type="button" class="btn-char btn btn-dark border border-dark">&nbsp;&nbsp;</button>
+                  <button type="button" class="btn-char btn btn-secondary border border-dark">&nbsp;&nbsp;</button>
+                  <button type="button" class="btn-char btn btn-secondary border border-dark">&nbsp;&nbsp;</button>
+                  <button type="button" class="btn-char btn btn-secondary border border-dark">&nbsp;&nbsp;</button>
+                  <button type="button" class="btn-char btn btn-secondary border border-dark">&nbsp;&nbsp;</button>
                 </div>
               </div>
-              <!--<div id="indices" class="btn-toolbar mb-3" role="toolbar" aria-label="index-toolbar">
-                <div class="btn-group" role="group" aria-label="index-btn-group" style="margin: 0 auto">
-                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
-                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
-                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
-                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
-                  <button type="button" class="btn btn-dark border border-dark">&nbsp;</button>
-                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
-                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
-                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
-                  <button type="button" class="btn btn-secondary border border-dark">&nbsp;</button>
-                </div>
-              </div>-->
               <div id="controls" class="btn-toolbar" role="toolbar" aria-label="step-toolbar">
-                <div class="btn-group mr-2" role="group" aria-label="step back" style="margin: 0 auto">
-                  <button type="button" class="btn btn-dark">&lt;&lt;</button>
-                  <button type="button" class="btn btn-dark">&lt;</button>
+                <div class="btn-group mr-2" role="group" aria-label="backward buttons" style="margin: 0 auto">
+                  <button id="resetBtn" type="button" class="btn btn-dark">&lt;&lt;</button>
+                  <button id="backBtn" type="button" class="btn btn-dark">&lt;</button>
                 </div>
-                <div class="btn-group ml-2" role="group" aria-label="step forward" style="margin: 0 auto">
-                  <button type="button" class="btn btn-dark">&gt;</button>
-                  <button type="button" class="btn btn-dark">&gt;&gt;</button>
+                <div class="input-group">
+                  <input id="indexInput" class="form-control" type="number" placeholder="#">
+                </div> 
+                <div class="btn-group ml-2" role="group" aria-label="forward buttons" style="margin: 0 auto">
+                  <button id="forwardBtn" type="button" class="btn btn-dark">&gt;</button>
+                  <button id="finishBtn" type="button" class="btn btn-dark">&gt;&gt;</button>
                 </div>
               </div>
             </div>
@@ -205,5 +195,4 @@
   </div>
   <script src="js/bundle/dfa.js"></script>
 </body>
-
 </html>

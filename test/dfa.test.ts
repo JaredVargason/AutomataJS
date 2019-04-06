@@ -26,7 +26,7 @@ describe('Dfa', function() {
         });
         it('should have eight transitions', function() {
             for (let i = 0; i < dfa.numStates; i++) {
-                expect(dfa.transitions.store[i]).to.have.keys(['a','b','c','d']);
+                expect(dfa.transitions[i]).to.have.keys(['a','b','c','d']);
             }
         });
         it('should accept the string "bad"', function() {
@@ -64,7 +64,7 @@ describe('Dfa', function() {
         });
         it('states should have a transition for each letter', function() {
             for (let i = 0; i < dfa.numStates; i++) {
-                expect(dfa.transitions.store[i]).to.have.keys(['0', '1']);
+                expect(dfa.transitions[i]).to.have.keys(['0', '1']);
             }
         });
         it('should accept the string "110"', function() {

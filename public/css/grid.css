@@ -31,3 +31,12 @@ body, html, .content { height:100%; }
 #resultBar {
     background-color: darkgrey;
 }
+
+#indexInput {
+    width: 4em;
+}
+
+.btn-char {
+    width: 2em;
+    height: 2.5em;
+}
