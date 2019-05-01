@@ -1,7 +1,7 @@
 import {readFileSync, writeFileSync} from 'fs';
 import { start } from 'repl';
 
-class Cfg {
+export class Cfg {
     terminals: string[];
     variables: string[];
     startVariable: string;
@@ -171,5 +171,3 @@ class CfgRule {
     }
 
 }
-
-export { Cfg };

@@ -40,3 +40,8 @@ body, html, .content { height:100%; }
     width: 2em;
     height: 2.5em;
 }
+
+.state-text {
+    font: bold 30px sans-serif;
+    text-anchor: middle;
+}

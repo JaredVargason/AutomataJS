@@ -1,7 +1,7 @@
 import {readFileSync, writeFileSync} from 'fs';
 import { start } from 'repl';
 
-class Dfa {
+export class Dfa {
     alphabet: string[];
     numStates: number;
     startState: number;
@@ -83,7 +83,7 @@ class Dfa {
     }
 }
 
-class DfaExecution {
+export class DfaExecution {
     dfa : Dfa;
     currentState : number; 
     inputString : string;
@@ -133,5 +133,3 @@ class DfaExecution {
         this.currentCharIndex--;
     }
 }
-
-export {Dfa, DfaExecution};

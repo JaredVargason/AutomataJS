@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync, stat } from 'fs';
 
-class Nfa {
+export class Nfa {
 
     static emptyStringChar = '#';
 
@@ -75,7 +75,7 @@ class Nfa {
     }
 }
 
-class NfaExecution {
+export class NfaExecution {
     nfa: Nfa;
     currentState: number;
     inputString: string;
@@ -112,5 +112,3 @@ class NfaExecution {
         return false;
     }
 }
-
-export { Nfa, NfaExecution };
