@@ -1,3 +1,5 @@
+import { ConnectionView } from "./connectionView";
+
 export class StateView {
 
     static stateRadius = 40;
@@ -10,9 +12,12 @@ export class StateView {
     circleElement: SVGCircleElement;
     textElement: SVGTextElement;
 
+    connections: {[key: string]: ConnectionView};
+
     constructor(state: number) {
         this.state = state;
         this.createElement(); 
+        this.connections = {};
     }
 
     createElement() {
@@ -33,10 +38,10 @@ export class StateView {
         circleElement.setAttributeNS(null, 'cx', StateView.halfStateWidth.toString());
         circleElement.setAttributeNS(null, 'cy', StateView.halfStateWidth.toString());
 
-        circleElement.onmouseenter = function(event) {
+        el.onmouseenter = function(event) {
             circleElement.style.fill = '#BBBBBB';
         } 
-        circleElement.onmouseleave = function(event) {
+        el.onmouseleave = function(event) {
             circleElement.style.fill = '#FFFFFF';
         }
 

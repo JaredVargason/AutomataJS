@@ -153,7 +153,7 @@
                   <button id="backBtn" type="button" class="btn btn-dark">&lt;</button>
                 </div>
                 <div class="input-group">
-                  <input id="indexInput" class="form-control" type="number" placeholder="#">
+                  <input id="indexInput" class="form-control" value="0">
                 </div> 
                 <div class="btn-group ml-2" role="group" aria-label="forward buttons" style="margin: 0 auto">
                   <button id="forwardBtn" type="button" class="btn btn-dark">&gt;</button>
@@ -193,6 +193,16 @@
       </div>
     </div>
   </div>
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- arrowhead marker definition -->
+      <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5"
+          markerWidth="6" markerHeight="6"
+          orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" />
+      </marker>
+    </defs>
+  </svg>
   <script src="js/bundle/dfa.js"></script>
 </body>
 </html>

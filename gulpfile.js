@@ -7,7 +7,7 @@ var watchify = require('watchify');
 var gutil = require('gulp-util');
 
 var files = [
-    './src/frontend/dfa_client.ts'
+    './src/views/dfa_client.ts'
 ]
 
 /*gulp.task('backup', function() {

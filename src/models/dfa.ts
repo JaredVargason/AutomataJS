@@ -81,6 +81,39 @@ export class Dfa {
         let contents: string = this.serialize();
         writeFileSync(filepath, contents);
     }
+
+    static createExampleDfa(): Dfa {
+        //Ends with "00" DFA
+        let alphabet = ['0', '1'];
+        let numStates = 3;
+        let startState = 0;
+        let acceptingStates = [2];
+        let transitions = {
+            0: {
+                '0': 1,
+                '1': 0
+            },
+            1: {
+                '0': 2,
+                '1': 0
+            },
+            2: {
+                '0': 2,
+                '1': 0
+            }
+        };
+        return new Dfa({
+            alphabet,
+            numStates,
+            startState,
+            acceptingStates,
+            transitions
+        }); 
+    }
+}
+
+export class DfaConnection {
+    
 }
 
 export class DfaExecution {
@@ -108,11 +141,11 @@ export class DfaExecution {
 
     finish() {
         while (this.currentCharIndex < this.inputString.length) {
-            this.step_forward();
+            this.stepForward();
         }
     }
 
-    step_forward() {
+    stepForward() {
         if (this.currentCharIndex >= this.inputString.length) {
             return;
         }
@@ -124,7 +157,7 @@ export class DfaExecution {
         this.currentCharIndex++;
     }
 
-    step_backward() {
+    stepBackward() {
         if (this.currentCharIndex <= 0) {
             return;
         }
